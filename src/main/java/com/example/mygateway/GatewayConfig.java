@@ -13,9 +13,10 @@ public class GatewayConfig {
     public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder,
                                            CustomHeaderFilter customHeaderFilter) {
         return routeLocatorBuilder.routes()
-                .route("route1", r -> r.path("/api/client")
+                .route("route1", r -> r.path("/api/client/**")
                         .filters(f -> f.filter(customHeaderFilter
                                 .apply(new CustomHeaderFilter.Config())))
-                        .uri("http://localhost:8082")).build();
+                        .uri("lb://client-service"))
+                .build();
     }
 }
