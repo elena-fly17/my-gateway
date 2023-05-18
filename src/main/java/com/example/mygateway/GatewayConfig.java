@@ -1,6 +1,5 @@
 package com.example.mygateway;
 
-import org.springframework.cloud.gateway.filter.factory.GatewayFilterFactory;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +16,10 @@ public class GatewayConfig {
                         .filters(f -> f.filter(customHeaderFilter
                                 .apply(new CustomHeaderFilter.Config())))
                         .uri("lb://client-service"))
+                .route("route2", r -> r.path("/api/update/**")
+                        .filters(f -> f.filter(customHeaderFilter
+                                .apply(new CustomHeaderFilter.Config())))
+                        . uri("lb://client-update"))
                 .build();
     }
 }
